@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  api:
+    container_name: api
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile.dev
+    image: docker-api
+    env_file:
+      - ../.env
+    volumes:
+      - "../:/node/app"
+    ports:
+      - ${PORT}:${PORT}
+    networks:
+      - docker-network
+    depends_on:
+      - "mysql"
+  mysql:
+    container_name: database
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile.mysql
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    env_file:
+      - ../.env
+    volumes:
+      - mysql:/var/lib/mysql
+    ports:
+      - 4040:3306
+    networks:
+      - docker-network
+volumes:
+  mysql: 
+networks:
+  docker-network:
+    driver: bridge

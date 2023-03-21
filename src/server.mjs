@@ -1,9 +1,12 @@
 import express from 'express'
+import { config } from 'dotenv'
 import { MainController } from './controllers/MainController.mjs'
 
 const app = express()
 
 app.use(express.json())
+
+config()
 
 const mainController = new MainController()
 
@@ -13,4 +16,4 @@ app.get('/:id', mainController.getOne)
 app.put('/:id', mainController.update)
 app.delete('/:id', mainController.delete)
 
-app.listen(3000, () => console.log('Rodando na 3000'))
+app.listen(process.env.PORT, () => console.log(`Rodando na ${process.env.PORT}`))
