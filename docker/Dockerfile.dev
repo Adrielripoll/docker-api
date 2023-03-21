@@ -1,0 +1,17 @@
+#Importa a imagem do Dockerhub:versão
+FROM node:18.15.0
+
+#Define o dirétorio de trabalho
+WORKDIR /node/app
+
+#Copia os arquivos package para dentro do WORKDIR
+COPY ../package*.json ./
+
+#Instala as dependências do projeto
+RUN npm install
+
+#Copia os demais dos arquivos do projeto
+COPY ../ .
+
+#Roda um comando toda vez que um container for criado ou iniciado
+CMD ["npm", "run", "dev"]

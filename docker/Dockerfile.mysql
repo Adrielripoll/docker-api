@@ -1,0 +1,7 @@
+#Importa a imagem do Dockerhub:versão
+FROM mysql:8.0.31 
+
+# Copia um arquivo de uma pasta local para uma pasta dentro do container
+    # Neste caso, estamos importando um arquivo .sql para ser executado imediatamente após o container ser construído
+COPY /database/schema.sql /docker-entrypoint-initdb.d
+
