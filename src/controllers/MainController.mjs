@@ -8,10 +8,9 @@ export class MainController {
         const query = 'INSERT INTO `users` (email, password) VALUES (?, ?)'
 
         connection.query(query, [data.email, data.password], (error, results, fields) => {
-            console.log(results)            
+            return response.status(201).json({ message: 'Usuário criado com sucesso!'})      
         })
 
-        connection.end()
     }
 
     async getAll(request, response){
@@ -20,7 +19,6 @@ export class MainController {
         connection.query(query, (error, results, fields) => {
             return response.status(201).json(results)
         })
-        connection.end()
     }
 
     async getOne(request, response){
@@ -30,7 +28,6 @@ export class MainController {
         connection.query(query, [id], (error, results, fields) => {
             return response.status(200).json(results[0])
         })
-        connection.end()
     }
 
     async update(request, response){
@@ -40,10 +37,8 @@ export class MainController {
         const query = 'UPDATE `users` SET email = ?, password = ? WHERE id = ?'
 
         connection.query(query, [data.email, data.password, id], (error, results, fields) => {
-            console.log(results)
-            return response.status(200).json()
+            return response.status(204)
         })
-        connection.end()
     }
 
     async delete(request, response){
@@ -51,8 +46,9 @@ export class MainController {
 
         const query = 'DELETE FROM `users` WHERE id = ?'
 
-        connection.query(query, [id], (error, results, fields) => {})
-        connection.end()
+        connection.query(query, [id], (error, results, fields) => {
+            return response.status(200).send({ message: 'Usuário deletado com sucesso!'})
+        })
     }
 }
 
